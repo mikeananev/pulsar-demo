@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Don't forget to set system property -Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector
+ to make all loggers asynchronous. -->
+<Configuration monitorInterval="30">
+    <properties>
+        <property name="app-name">pulsar.demo</property>
+        <property name="pattern-simple">%d{HH:mm:ss.SSS} %-5level - %msg %logger{36}%n</property>
+        <property name="pattern-edn">{:time #inst "%d{yyyy-MM-dd'T'HH:mm:ss.SSS'Z'}", :msg %msg, :host "${hostName}", :level "%level", :logger "%logger{36}"}%n</property>
+        <property name="pattern-edn-short">{:t #inst"%d{yyyy-MM-dd'T'HH:mm:ss.SSS'Z'}" :l "%level", :m %msg :s "%logger{36}"}%n</property>
+    </properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>${pattern-edn-short}</pattern>
+            </PatternLayout>
+        </Console>
+
+    </Appenders>
+
+    <Loggers>
+
+        <Logger name="pulsar" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="io.pedestal.log" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+
+        <Root level="warn">
+            <AppenderRef ref="Console"/>
+        </Root>
+
+    </Loggers>
+
+</Configuration>

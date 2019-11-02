@@ -1,11 +1,32 @@
-{:paths ["resources" "src"]
- :deps {org.clojure/clojure {:mvn/version "1.10.1"}}
- :aliases
- {:test {:extra-paths ["test"]
-         :extra-deps {org.clojure/test.check {:mvn/version "0.10.0"}}}
-  :runner
-  {:extra-deps {com.cognitect/test-runner
-                {:git/url "https://github.com/cognitect-labs/test-runner"
-                 :sha "76568540e7f40268ad2b646110f237a60295fa3c"}}
-   :main-opts ["-m" "cognitect.test-runner"
-               "-d" "test"]}}}
+{:paths   ["resources" "src"]
+
+ :deps    {org.clojure/clojure                       {:mvn/version "1.10.1"}
+
+           org.apache.pulsar/pulsar-client           {:mvn/version "2.4.1"}
+           com.taoensso/nippy                        {:mvn/version "2.14.0"}
+
+           middlesphere/util                         {:mvn/version "0.3.1"}
+
+           ;;logging
+           org.apache.logging.log4j/log4j-core       {:mvn/version "2.11.2"}
+           org.apache.logging.log4j/log4j-slf4j-impl {:mvn/version "2.11.2"}
+
+           }
+
+ :aliases {
+           :repl   {:extra-deps  {criterium                  {:mvn/version "0.4.5"}
+                                  nrepl                      {:mvn/version "0.6.0"}
+                                  spieden/spyscope           {:mvn/version "0.1.7"}
+                                  com.bhauman/rebel-readline {:mvn/version "0.1.4"}
+                                  matcho                     {:mvn/version "0.1.0-RC6"}}
+                    :jvm-opts    ["-Duser.timezone=UTC"]
+                    :extra-paths ["resources" "test"]
+                    :main-opts   ["--main" "nrepl.cmdline"]}
+
+           :test   {:extra-paths ["test"]
+                    :extra-deps  {org.clojure/test.check {:mvn/version "0.10.0"}}}
+           :runner {:extra-deps {com.cognitect/test-runner
+                                 {:git/url "https://github.com/cognitect-labs/test-runner"
+                                  :sha     "76568540e7f40268ad2b646110f237a60295fa3c"}}
+                    :main-opts  ["-m" "cognitect.test-runner"
+                                 "-d" "test"]}}}
